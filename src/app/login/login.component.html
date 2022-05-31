@@ -1,0 +1,87 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <img
+      id="profile-img"
+      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+      class="profile-img-card"
+    />
+    <form
+      *ngIf="!isLoggedIn"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+
+      <!-- 邮箱输入栏 -->
+      <div class="form-group">
+        <label for="email">邮箱</label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          [(ngModel)]="form.mail"
+          required
+          email
+          #email="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="email.errors && f.submitted"
+        >
+          <!-- Username is required! -->
+          <div *ngIf="email.errors['required']">请输入邮箱</div>
+          <div *ngIf="email.errors['email']">
+            邮箱格式错误
+          </div>
+        </div>
+      </div>
+
+      <!-- 密码输入栏 -->
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.pwd"
+          required
+          minlength="6"
+          #password="ngModel"
+        />
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="password.errors && f.submitted"
+        >
+          <div *ngIf="password.errors['required']">请输入密码</div>
+          <div *ngIf="password.errors['minlength']">
+            密码至少为6位
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+
+
+
+        <button mat-flat-button color="primary" class="my-login-btn">登录</button>
+      </div>
+      <div class="form-group">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="f.submitted && isLoginFailed"
+        >
+          登录失败: {{ errorMessage }}
+        </div>
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isLoggedIn">
+      Logged in as {{ roles }}.
+    </div>
+  </div>
+</div>
